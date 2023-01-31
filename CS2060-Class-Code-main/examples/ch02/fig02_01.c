@@ -5,15 +5,13 @@
 * due: 1/30/23
 * desc: This project will prompt and read in from the user: length and width. The function "calculate area" will calculate the area
 */
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
 
 int calculateArea(int,int,int);
+
 int main( void )
 {
-	int area = 0;
-	int length, width;
+	int length = 0, width = 0,area = 0;
 
 	puts("Enter value for Length: ");
 	scanf("%d", &length);
@@ -24,7 +22,12 @@ int main( void )
 	// send value to function and calculate area
 	area = calculateArea(length, width, area);
 
-	printf("The Area is: %d", area );
+	printf("Length: %d width: %d and area is %d", length,width,area);
+
+	double lenWidthDivided = (double)length / (double)width;
+
+	printf("\nlength and width divided and stored in a double: %.1f\n\n",lenWidthDivided);
+
 	return 0;
 } // end function main 
 
@@ -35,6 +38,5 @@ int calculateArea(int length, int width, int area) {
 	return area;
 
 }
-
 
 
