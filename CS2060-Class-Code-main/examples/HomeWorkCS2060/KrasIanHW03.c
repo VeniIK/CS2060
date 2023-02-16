@@ -20,48 +20,47 @@
 
 //functions
 double getValidHours(int,int,int);
-void summary(double,double,double,double,double,int, int);
+void summary(double,int);
 
 int main(void) {
 	const int SENTINEL = -1;
 
 	double hours = getValidHours(MIN_VALID_HOURS,MAX_HOURS_ALLOWED,SENTINEL);
-	summary(hours, MAX_CHARGE, ADDITIONAL_HOURS_RATE, MIN_FLAT_RATE_CHARGE, MIN_HOURS_AT_FLAT_RATE, SENTINEL, MAX_HOURS_ALLOWED);
-
-	printf("Your hours: %f", hours);
+	summary(hours,SENTINEL);
 	
 	return 0;
 
 }
+
 /*
 * calculates total charge and prints the end summary
 */
-void summary(double hours, double max_charge, double ADD_HOURS_RATE, double MIN_CHARGE, double time_at_flat_rate, int SENTINEL, int max_hours) {
+void summary(double hours, int SENTINEL) {
 
 	double chargeableHours = 0;
-	static int car_num = 0;
+	static int car_num = 1;
 
 	puts("Parking Garage Summary\n");
 
 	if (hours != SENTINEL) {
 		car_num++;
 
-		chargeableHours = (ciel(hours) - time_at_flat_rate);
+		chargeableHours = (floor(hours)) - MIN_HOURS_AT_FLAT_RATE;
 
 		if (chargeableHours > 3) {
 			
 			//need to check if hours is greater than max
 
-			if (chargeableHours > max_hours) {
-				chargeableHours = max_charge;
+			if (chargeableHours > MAX_HOURS_ALLOWED) {
+				chargeableHours = MAX_CHARGE;
 			}
 			else {
-				chargeableHours = chargeableHours * ADD_HOURS_RATE;
+				chargeableHours = chargeableHours * ADDITIONAL_HOURS_RATE;
 			}
 
 		}else {
 			//chargeable hours is less than 3 hours
-			chargeableHours = MIN_CHARGE;
+			chargeableHours = MIN_FLAT_RATE_CHARGE;
 		}
 		
 		printf("Car\tHours\tCharge\t\n %i\t%.1f\t%.2f",car_num,hours,chargeableHours);
