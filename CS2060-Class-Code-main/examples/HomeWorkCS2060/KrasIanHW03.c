@@ -99,7 +99,6 @@ double getValidHours(int MIN, int MAX, int SENTINEL) {
 
 		if (scanfReturn == 1) {
 
-
 			if (hoursIn == SENTINEL || hoursIn <= MAX && hoursIn > MIN) {
 				FLAG = true;
 			}
