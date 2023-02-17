@@ -61,10 +61,7 @@ void summary(double hours, int SENTINEL) {
 
 	car_num++;
 
-	if (hours = SENTINEL) {
-		puts("No cars today!");
-	}
-	else {
+	
 		if (hours <= MIN_HOURS_AT_FLAT_RATE) {
 
 			chargeableHours = MIN_FLAT_RATE_CHARGE;
@@ -78,11 +75,7 @@ void summary(double hours, int SENTINEL) {
 		}
 
 		printf("Car\tHours\tCharge\t\n %i\t%.1f\t%.2f",car_num,hours,chargeableHours);
-	}
-	
-	
 
-	
 }
 
 /*
