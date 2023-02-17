@@ -52,6 +52,8 @@ int main(void) {
 */
 void summary(double hours) {
 
+
+	int overheadHours = 0;
 	double chargeableHours = 0;
 	static int car_num = 0;
 
@@ -59,7 +61,6 @@ void summary(double hours) {
 
 	car_num++;
 
-	hours = 5;
 
 	if (hours <= MIN_HOURS_AT_FLAT_RATE) {
 
@@ -69,7 +70,8 @@ void summary(double hours) {
 		chargeableHours = MAX_CHARGE;
 	}
 	else {
-		chargeableHours = ((hours - MIN_HOURS_AT_FLAT_RATE) * ADDITIONAL_HOURS_RATE) + MIN_FLAT_RATE_CHARGE;
+
+		chargeableHours = (hours - MIN_HOURS_AT_FLAT_RATE * ADDITIONAL_HOURS_RATE) + MIN_FLAT_RATE_CHARGE;
 	}
 
 	
@@ -97,14 +99,14 @@ double getValidHours(int MIN, int MAX, int SENTINEL) {
 
 		if (scanfReturn == 1) {
 
+
 			if (hoursIn == SENTINEL || hoursIn <= MAX && hoursIn > MIN) {
 				FLAG = true;
-
 			}
 			else {
 				puts("Invalid Range");
 			}
-
+			
 		}
 		else {
 			puts("You did not enter a number");
