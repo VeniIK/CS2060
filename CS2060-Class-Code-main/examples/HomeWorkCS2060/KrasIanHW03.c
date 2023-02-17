@@ -50,7 +50,7 @@ int main(void) {
 * if greater charge = max charge
 * else charge = hours - min hours. multiplied by add charge by hour then add the flat rate.
 */
-void summary(double hours) {
+void summary(double hours, int SENTINEL) {
 
 
 	int overheadHours = 0;
@@ -61,21 +61,26 @@ void summary(double hours) {
 
 	car_num++;
 
-
-	if (hours <= MIN_HOURS_AT_FLAT_RATE) {
-
-		chargeableHours = MIN_FLAT_RATE_CHARGE;
-	}
-	else if (hours > MAX_HOURS_ALLOWED) {
-		chargeableHours = MAX_CHARGE;
+	if (hours = SENTINEL) {
+		puts("No cars today!");
 	}
 	else {
+		if (hours <= MIN_HOURS_AT_FLAT_RATE) {
 
-		chargeableHours = (hours - MIN_HOURS_AT_FLAT_RATE * ADDITIONAL_HOURS_RATE) + MIN_FLAT_RATE_CHARGE;
+			chargeableHours = MIN_FLAT_RATE_CHARGE;
+		}
+		else if (hours > MAX_HOURS_ALLOWED) {
+			chargeableHours = MAX_CHARGE;
+		}
+		else {
+
+			chargeableHours = (hours - MIN_HOURS_AT_FLAT_RATE * ADDITIONAL_HOURS_RATE) + MIN_FLAT_RATE_CHARGE;
+		}
+
+		printf("Car\tHours\tCharge\t\n %i\t%.1f\t%.2f",car_num,hours,chargeableHours);
 	}
-
 	
-	printf("Car\tHours\tCharge\t\n %i\t%.1f\t%.2f",car_num,hours,chargeableHours);
+	
 
 	
 }
@@ -93,13 +98,13 @@ double getValidHours(int MIN, int MAX, int SENTINEL) {
 	do {
 		puts("\nEnter the number of hours the car was parked or enter -1 to quit.");
 
-		int scanfReturn = scanf("%f", &hoursIn);
+		int scanfReturn = scanf("%lf", &hoursIn);
 
 		while ((getchar()) != '\n');
 
 		if (scanfReturn == 1) {
 
-			if (hoursIn == SENTINEL || hoursIn <= MAX && hoursIn > MIN) {
+			if (hoursIn == SENTINEL || hoursIn <= MAX || hoursIn > MIN) {
 				FLAG = true;
 			}
 			else {
