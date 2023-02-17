@@ -7,7 +7,7 @@
 * Kras Ian
 * Home Work 03
 * due 2/16/23
-* Desc:
+* Desc: read in number of hours a car was parked. If not valid ask again, gives chargeable amount.
 */
 
 //constants
@@ -20,80 +20,94 @@
 
 //functions
 double getValidHours(int,int,int);
-void summary(double,int);
+void summary(double);
 
 int main(void) {
-	const int SENTINEL = -1;
 
-	double hours = getValidHours(MIN_VALID_HOURS,MAX_HOURS_ALLOWED,SENTINEL);
-	summary(hours,SENTINEL);
-	
+	const int SENTINEL = -1;
+	bool FLAG = false;
+	double hours = 0;
+
+	do {
+		//if returned hours == -1 set flag to true output summary and return 0
+		hours = getValidHours(MIN_VALID_HOURS, MAX_HOURS_ALLOWED, SENTINEL);
+
+		if (hours == SENTINEL) {
+			FLAG = true;
+		}
+
+		summary(hours, SENTINEL);
+
+	} while (!FLAG);
+
 	return 0;
 
-}
+}//end main
 
 /*
 * calculates total charge and prints the end summary
+* if less than charge = flat rate
+* if greater charge = max charge
+* else charge = hours - min hours. multiplied by add charge by hour then add the flat rate.
 */
-void summary(double hours, int SENTINEL) {
+void summary(double hours) {
 
 	double chargeableHours = 0;
-	static int car_num = 1;
+	static int car_num = 0;
 
-	puts("Parking Garage Summary\n");
+	puts("Parking Garage Summary\n---------------------------------");
 
-	if (hours != SENTINEL) {
-		car_num++;
+	car_num++;
 
-		chargeableHours = (floor(hours)) - MIN_HOURS_AT_FLAT_RATE;
+	hours = 5;
 
-		if (chargeableHours > 3) {
-			
-			//need to check if hours is greater than max
+	if (hours <= MIN_HOURS_AT_FLAT_RATE) {
 
-			if (chargeableHours > MAX_HOURS_ALLOWED) {
-				chargeableHours = MAX_CHARGE;
-			}
-			else {
-				chargeableHours = chargeableHours * ADDITIONAL_HOURS_RATE;
-			}
-
-		}else {
-			//chargeable hours is less than 3 hours
-			chargeableHours = MIN_FLAT_RATE_CHARGE;
-		}
-		
-		printf("Car\tHours\tCharge\t\n %i\t%.1f\t%.2f",car_num,hours,chargeableHours);
-
-
-	}else {
-		puts("There were no cars parked today");
+		chargeableHours = MIN_FLAT_RATE_CHARGE;
 	}
+	else if (hours > MAX_HOURS_ALLOWED) {
+		chargeableHours = MAX_CHARGE;
+	}
+	else {
+		chargeableHours = ((hours - MIN_HOURS_AT_FLAT_RATE) * ADDITIONAL_HOURS_RATE) + MIN_FLAT_RATE_CHARGE;
+	}
+
+	
+	printf("Car\tHours\tCharge\t\n %i\t%.1f\t%.2f",car_num,hours,chargeableHours);
 
 	
 }
 
 /*
-Get valid Hours, returns hours, reads in from user hours, if they are not valid repeat the question, clears buffer to prevent buffer overflow.
+Get valid Hours, returns hours, reads in from user hours, 
+if they are not valid repeat the question, clears buffer to prevent buffer overflow.
 */
 double getValidHours(int MIN, int MAX, int SENTINEL) {
+
 	double hoursIn = 0;
 	bool FLAG = false;
 
+
 	do {
-		puts("Enter the number of hours the car was parked or enter -1 to quit.");
+		puts("\nEnter the number of hours the car was parked or enter -1 to quit.");
 
 		int scanfReturn = scanf("%f", &hoursIn);
 
-		while ((getchar()) != '\n'); 
+		while ((getchar()) != '\n');
 
 		if (scanfReturn == 1) {
-			if (hoursIn > MIN && hoursIn <= MAX || hoursIn == SENTINEL) {
+
+			if (hoursIn == SENTINEL || hoursIn <= MAX && hoursIn > MIN) {
 				FLAG = true;
+
 			}
 			else {
-				puts("Please input valid hours");
+				puts("Invalid Range");
 			}
+
+		}
+		else {
+			puts("You did not enter a number");
 		}
 
 	} while (!FLAG);
